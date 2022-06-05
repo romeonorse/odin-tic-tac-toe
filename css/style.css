@@ -19,27 +19,30 @@ body {
   background-color: var(--back-color);
   color: var(--primary-color);
   padding: var(--global-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  text-align: center;
 }
 
 .container {
+  margin: 0 auto;
   max-width: 960px;
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  gap: 2rem;
   align-items: center;
-  text-align: center;
+  gap: 2rem;
   padding: var(--inner-padding);
 }
 
 .grid {
-  border: 3px solid var(--primary-color);
+  border: 3px solid var(--secondary-color);
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .cell {
-  border: 1px solid var(--primary-color);
+  border: 1px solid var(--secondary-color);
   width: 10rem;
   height: 10rem;
   font-size: 5rem;
@@ -49,4 +52,21 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+
+.player {
+  width: 10rem;
+  height: 10rem;
+  border-radius: 1rem;
+  border: 5px solid var(--primary-color);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+}
+
+.active {
+  background-color: var(--secondary-color);
+  color: #fff;
 }
