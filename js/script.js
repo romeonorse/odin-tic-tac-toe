@@ -46,6 +46,26 @@ const player = () => {
 
     return sign;
   }
+
+  const checkWinner = () => {
+    const b = gameBoard.gbArr;
+    let winner;
+    const rows = [[b[0], b[1], b[2]], [b[3], b[4], b[5]], [b[6], b[7], b[8]]];
+    const columns = [[b[0], b[3], b[6]], [b[1], b[4], b[7]], [b[2], b[5], b[8]]];
+    const crosses = [[b[0], b[4], b[8]], [b[2], b[4], b[6]]];
+    const elements = [...rows, ...columns, ...crosses];
+
+    const gotWinner = elements.filter(el => {
+      el.every(inEl => inEl === el[0])
+    });
+
+    winner = gotWinner[0];
+
+    const title = document.querySelector('.title');
+    if (winner) {
+      title.innerText = `We got a winner: ${winner}`;
+    }
+  }
   
   const markCell = function() {
     gameBoard.cells.forEach((cell, index) => {
@@ -55,6 +75,7 @@ const player = () => {
           e.target.innerText = `${sign}`;
           playerBoard[index] = `${sign}`;
           gameBoard.toggler();
+          checkWinner();
           return gameBoard.counter++;
         }
       })
