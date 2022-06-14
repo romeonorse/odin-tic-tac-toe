@@ -22,6 +22,7 @@ const gameBoard = (() => {
   let counter = 2;
 
   const title = document.querySelector('.title');
+  const reset = document.querySelector('.reset');
   
   return {
     gbArr,
@@ -29,7 +30,8 @@ const gameBoard = (() => {
     renderBoard,
     toggler,
     counter,
-    title
+    title,
+    reset
   }
 })();
 
@@ -51,20 +53,32 @@ const player = () => {
   }
 
   const checkWinner = () => {
-    let winner;
 
     const rows = [[playerBoard[0], playerBoard[1], playerBoard[2]], [playerBoard[3], playerBoard[4], playerBoard[5]], [playerBoard[6], playerBoard[7], playerBoard[8]]];
     const columns = [[playerBoard[0], playerBoard[3], playerBoard[6]], [playerBoard[1], playerBoard[4], playerBoard[7]], [playerBoard[2], playerBoard[5], playerBoard[8]]];
     const crosses = [[playerBoard[0], playerBoard[4], playerBoard[8]], [playerBoard[2], playerBoard[4], playerBoard[6]]];
     const elements = [...rows, ...columns, ...crosses];
 
-    const winnerX = elements.some(el => {
-      el.forEach(inEl => {
-        inEl === 'X';
-      })
-    })
+    
+    const winner = elements.filter(el => el.every(inEl => {
+      return inEl !== '' ? inEl === el[0] : null
+    }));
+    console.log(elements, winner);
 
-    console.log(elements, winnerX);
+    const [newArr] = [...winner];
+    
+    if (newArr !== undefined) {
+      if (newArr[0] === 'X') {
+        playerBoard = [...gameBoard.gbArr];
+        return 'X is won';
+      } else if (newArr[0] === 'Y') {
+        playerBoard = [...gameBoard.gbArr];
+        return 'Y is won';
+      }
+    } else {
+      return 'Tic-Tac-Toe';
+    }
+
 
   }
   
@@ -76,7 +90,7 @@ const player = () => {
           e.target.innerText = `${sign}`;
           playerBoard[index] = `${sign}`;
           gameBoard.toggler();
-          checkWinner();
+          gameBoard.title.innerText = checkWinner();
           return gameBoard.counter++;
         }
       })
@@ -90,9 +104,14 @@ const player = () => {
   }
 }
 
+
+gameBoard.reset.addEventListener('click', function() {
+  gameBoard.cells.forEach(cell => cell.innerText = '');
+  gameBoard.counter = 2;
+  gameBoard.title.innerText = 'Tic-Tac-Toe';
+})
+
 const currentPlayer = player();
-
-
 
 currentPlayer.markCell();
 
